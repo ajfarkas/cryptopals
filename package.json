@@ -1,0 +1,25 @@
+{
+  "name": "crypto-node",
+  "version": "0.1.0",
+  "description": "Cryptopals challenge in Node.js ",
+  "preferGlobal": "true",
+  "main": "index.js",
+  "bin": { "crypto": "index.js" },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "null"
+  },
+  "keywords": [
+    "crypto",
+    "cryptopals"
+  ],
+  "author": "null",
+  "license": "MIT",
+  "dependencies": {
+    "jasmine": "^2.3.2"
+  },
+  "engines": { "node": "^4.0.0" }
+}
