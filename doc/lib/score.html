@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="en"><head><title>lib/score</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="lib/score"><meta name="groc-project-path" content="lib/score.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">lib/score.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="decryption-scoring">Decryption Scoring</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> Score = {}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="letter-frequency">Letter Frequency</h1>
+<p>The input is scored by the frequency of the most common letters in a given language.
+Default language is English (because I speak English).
+<code>input</code> must be a string, preferably not binary or you&#39;re wasting electricity.
+<code>lang</code> is optional: currrent support is for the following languages:</p>
+<ul>
+<li>&quot;english&quot;</li>
+</ul>
+<p>Output is an integer reflecting the total frequency score. A higher number is better.</p></div></div><div class="code"><div class="wrapper">Score.frequency = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input, lang</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid input on Score.frequency: input must be a string'</span>)
+  <span class="hljs-comment">//least to most frequent</span>
+  <span class="hljs-keyword">var</span> letters = <span class="hljs-string">'zqxjkvbpygfwmucldrhsnioate'</span>
+  <span class="hljs-keyword">var</span> score = <span class="hljs-number">0</span>
+
+  input.split(<span class="hljs-string">''</span>).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">letter</span>) </span>{
+    score += letters.indexOf(letter)
+  })
+
+  <span class="hljs-keyword">return</span> score
+}
+
+<span class="hljs-built_in">module</span>.exports = Score</div></div></div></div></body></html>

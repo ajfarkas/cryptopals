@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><title>lib/xor</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="lib/xor"><meta name="groc-project-path" content="lib/xor.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">lib/xor.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="xor-functions">Xor Functions</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> Const = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./const'</span>)
+<span class="hljs-keyword">var</span> Convert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./convert'</span>)
+<span class="hljs-keyword">var</span> Score = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./score'</span>)
+
+<span class="hljs-keyword">var</span> X = {}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="xor-combine">XOR Combine</h2>
+<p>Inputs <code>a</code> and <code>b</code> must both be <code>strings</code> in binary format. Inputs may be unequal lengths.
+Output will be a <code>string</code> in binary format.
+<code>XOR.combine(&#39;101&#39;, &#39;100&#39;)</code> returns &#39;001&#39;</p></div></div><div class="code"><div class="wrapper">X.combine = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b</span>) </span>{
+  [a, b].forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
+    <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^01]/</span>) )
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid input on XOR.combine: binary strings only'</span>)
+  })
+  <span class="hljs-keyword">var</span> lenA = a.length,
+      lenB = b.length
+  <span class="hljs-keyword">var</span> longest = <span class="hljs-built_in">Math</span>.max(lenA, lenB)
+  <span class="hljs-keyword">var</span> result = <span class="hljs-string">''</span>
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; longest; i++) {
+    result += a[i % lenA] === b[i % lenB] ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span> 
+  }
+
+  <span class="hljs-keyword">return</span> result
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="find-single-character-xor-key">Find Single-Character XOR Key</h2>
+<p><code>input</code> must be a <code>string</code> in binary format
+Output is an object containing the key, decrypted message, and the decryption score for the best key</p>
+<p>var bin = &#39;011001010110000101110100&#39;</p>
+<p><code>XOR.findSingleFrom(bin)</code> returns { score: 72, key: &#39;00000100&#39;, msg: &#39;eat&#39; }</p></div></div><div class="code"><div class="wrapper">X.findSingleFrom = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'inalid input on XOR.find: input must be a binary string'</span>)
+  <span class="hljs-keyword">var</span> keyBin, key, xorResult, newScore, best
+
+  <span class="hljs-keyword">var</span> check = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">zero</span>) </span>{
+    keyBin = i.toString(<span class="hljs-number">2</span>)
+    key = zero.slice(keyBin.length) + keyBin
+
+    xorResult = Convert.binToAscii( X.combine(input, key) )
+    newScore = Score.frequency(xorResult)
+    <span class="hljs-keyword">if</span> (!best || best.score &lt; newScore) {
+      best = {
+        score: newScore,
+        key: key,
+        msg: xorResult
+      }
+    }
+  }
+  <span class="hljs-comment">//test for hex keys</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">16</span>; i++) {
+    check(<span class="hljs-string">'0000'</span>)
+  }
+  <span class="hljs-comment">//test for base64 keys</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">64</span>; i++) {
+    check(<span class="hljs-string">'000000'</span>)
+  }
+  <span class="hljs-comment">//test for ascii keys</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">256</span>; i++) {
+    check(<span class="hljs-string">'00000000'</span>)
+  }
+  <span class="hljs-keyword">return</span> best
+}
+
+<span class="hljs-built_in">module</span>.exports = X</div></div></div></div></body></html>

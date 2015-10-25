@@ -36,14 +36,38 @@ describe("Convert", function() {
   })
 })
 
-// describe("XOR", function() {
-//   var XOR = require('../lib/Xor')
+describe("Score", function() {
+  var Score = require('../lib/score')
 
-//   it("should XOR two strings against each other", function() {
-//     var str1 = '1c0111001f010100061a024b53535009181c'
-//     var str2 = '686974207468652062756c6c277320657965'
+  it("should give the letter frequency of a string (English)", function() {
+    var string = "Hello World"
+    var garbage = "e*0-j 1@"
+
+    expect(Score.frequency(string)).toEqual(175)
+    expect(Score.frequency(garbage)).toEqual(22)
+  })
+})
+
+describe("XOR", function() {
+  var Xor = require('../lib/xor')
+  var Convert = require('../lib/convert')
+
+  it("should XOR two strings against each other", function() {
+    var str1 = Convert.hexToBin('1c0111001f010100061a024b53535009181c')
+    var str2 = Convert.hexToBin('686974207468652062756c6c277320657965')
+    var result = Convert.hexToBin('746865206b696420646f6e277420706c6179')
     
-//     var answer = Convert
-//     expect(answer).toEqual('746865206b696420646f6e277420706c6179')
-//   })
-// })
+    var answer = Xor.combine(str1, str2)
+    expect(answer).toEqual(result)
+  })
+
+  it("should find a single-char key", function() {
+    var encrypt = Convert.hexToBin('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736')
+
+    var decrypt = Xor.findSingleFrom(encrypt)
+    expect(decrypt.msg).toEqual("Cooking MC's like a pound of bacon")
+  })
+})
+
+
+

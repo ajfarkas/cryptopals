@@ -25,16 +25,92 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "JavaScript"
             },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/const.js",
+            "projectPath": "lib/const.js",
+            "targetPath": "lib/const",
+            "pageTitle": "lib/const",
+            "title": "const"
+          },
+          "depth": 2
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
             "sourcePath": "/Users/aj/Sites/cryptopals/lib/convert.js",
             "projectPath": "lib/convert.js",
             "targetPath": "lib/convert",
             "pageTitle": "lib/convert",
+            "title": "convert"
+          },
+          "depth": 2
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/index.js",
+            "projectPath": "lib/index.js",
+            "targetPath": "lib/index",
+            "pageTitle": "lib/index",
+            "title": "index"
+          },
+          "depth": 2
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/score.js",
+            "projectPath": "lib/score.js",
+            "targetPath": "lib/score",
+            "pageTitle": "lib/score",
+            "title": "score"
+          },
+          "depth": 2
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/xor.js",
+            "projectPath": "lib/xor.js",
+            "targetPath": "lib/xor",
+            "pageTitle": "lib/xor",
             "firstHeader": {
               "type": "heading",
               "data": {
                 "level": 1,
-                "title": "Basic Conversion",
-                "slug": "basic-conversion",
+                "title": "Xor Functions",
+                "slug": "xor-functions",
                 "isFileHeader": true
               },
               "depth": 1,
@@ -43,30 +119,22 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 2,
-                    "title": "To Binary Conversions",
-                    "slug": "to-binary-conversions"
+                    "title": "XOR Combine",
+                    "slug": "xor-combine"
                   },
                   "depth": 2
                 }, {
                   "type": "heading",
                   "data": {
                     "level": 2,
-                    "title": "From Binary Conversions",
-                    "slug": "from-binary-conversions"
-                  },
-                  "depth": 2
-                }, {
-                  "type": "heading",
-                  "data": {
-                    "level": 2,
-                    "title": "Other Encoding Conversions",
-                    "slug": "other-encoding-conversions"
+                    "title": "Find Single-Character XOR Key",
+                    "slug": "find-single-character-xor-key"
                   },
                   "depth": 2
                 }
               ]
             },
-            "title": "Basic Conversion"
+            "title": "Xor Functions"
           },
           "depth": 2,
           "outline": [
@@ -74,24 +142,16 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
-                "title": "To Binary Conversions",
-                "slug": "to-binary-conversions"
+                "title": "XOR Combine",
+                "slug": "xor-combine"
               },
               "depth": 2
             }, {
               "type": "heading",
               "data": {
                 "level": 2,
-                "title": "From Binary Conversions",
-                "slug": "from-binary-conversions"
-              },
-              "depth": 2
-            }, {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "Other Encoding Conversions",
-                "slug": "other-encoding-conversions"
+                "title": "Find Single-Character XOR Key",
+                "slug": "find-single-character-xor-key"
               },
               "depth": 2
             }
