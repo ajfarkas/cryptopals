@@ -36,15 +36,42 @@ describe("Convert", function() {
   })
 })
 
+describe("Detect", function() {
+  var Detect = require('../lib/detect')
+
+  it("should recognize binary encoding", function() {
+    var str = "011100010101100100"
+
+    expect(Detect.encoding(str)).toEqual('binary')
+  })
+
+  it("should recognize hex encoding", function() {
+    var str = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+
+    expect(Detect.encoding(str)).toEqual('hex')
+  })
+
+  it("should recognize base64 encoding", function() {
+    var str = "HUIfTQsPAh9PE048GmllH0kcDk4TAQsHT"
+
+    expect(Detect.encoding(str)).toEqual('base64')
+  })
+
+  it("should recognize ascii encoding", function() {
+    var str = "Lajos Batthyány\ntook office in 1848"
+
+    expect(Detect.encoding(str)).toEqual('ascii')
+  })
+})
+
 describe("Score", function() {
   var Score = require('../lib/score')
 
   it("should give the letter frequency of a string (English)", function() {
     var string = "Hello World"
-    var garbage = "e*0-j 1@"
+    var garbage = "e*0-j 1@ee"
 
-    expect(Score.frequency(string)).toEqual(175)
-    expect(Score.frequency(garbage)).toEqual(22)
+    expect(Score.frequency(string)).toBeGreaterThan(Score.frequency(garbage))
   })
 })
 
@@ -64,7 +91,7 @@ describe("XOR", function() {
   it("should find a single-char key", function() {
     var encrypt = Convert.hexToBin('1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736')
 
-    var decrypt = Xor.findSingleFrom(encrypt)
+    var decrypt = Xor.findSingle(encrypt)
     expect(decrypt.msg).toEqual("Cooking MC's like a pound of bacon")
   })
 })
