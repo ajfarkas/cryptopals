@@ -3,13 +3,16 @@
 <span class="hljs-keyword">var</span> Score = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./score'</span>)
 
 <span class="hljs-keyword">var</span> X = {}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="xor-combine">XOR Combine</h2>
-<p>Inputs <code>a</code> and <code>b</code> must both be <code>strings</code> in binary format. Inputs may be unequal lengths.
+<p>Args <code>a</code> and <code>b</code> must both be <code>strings</code> in binary format. Args may be unequal lengths.
 Output will be a <code>string</code> in binary format.
 <code>XOR.combine(&#39;101&#39;, &#39;100&#39;)</code> returns &#39;001&#39;</p></div></div><div class="code"><div class="wrapper">X.combine = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b</span>) </span>{
+  <span class="hljs-keyword">var</span> err
   [a, b].forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
     <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^01]/</span>) )
-      <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid input on XOR.combine: binary strings only'</span>)
+      err = <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on XOR.combine: binary strings only'</span>)
   })
+  <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> err;
+
   <span class="hljs-keyword">var</span> lenA = a.length,
       lenB = b.length
   <span class="hljs-keyword">var</span> longest = <span class="hljs-built_in">Math</span>.max(lenA, lenB)
@@ -22,11 +25,24 @@ Output will be a <code>string</code> in binary format.
   <span class="hljs-keyword">return</span> result
 }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="find-single-character-xor-key">Find Single-Character XOR Key</h2>
 <p><code>input</code> must be a <code>string</code> in binary format
-Output is an object containing the key, decrypted message, and the decryption score for the best key</p>
+<code>opts</code> arg is optional:</p>
+<ul>
+<li><code>enc</code> can be defined to change key encoding to test for (default is ascii)<ul>
+<li>&#39;hex&#39; (hexadecimal)</li>
+<li>&#39;b64&#39; (base64)</li>
+</ul>
+</li>
+<li><code>score</code> can be defined to change message scoring method (default is frequency)<ul>
+<li>&#39;freq&#39; (common letter frequency)</li>
+<li>&#39;digraph&#39; (common letter pairs)</li>
+</ul>
+</li>
+</ul>
+<p>Output is an object containing the key, decrypted message, and the decryption score for the best key</p>
 <p>var bin = &#39;011001010110000101110100&#39;</p>
-<p><code>XOR.findSingleFrom(bin)</code> returns { score: 72, key: &#39;00000100&#39;, msg: &#39;eat&#39; }</p></div></div><div class="code"><div class="wrapper">X.findSingleFrom = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
+<p><code>XOR.findSingleFrom(bin, {enc: &#39;ascii&#39;, score: &#39;freq&#39;})</code> returns { score: 72, key: &#39;00000100&#39;, msg: &#39;eat&#39; }</p></div></div><div class="code"><div class="wrapper">X.findSingle = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input, opts</span>) </span>{
   <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span>)
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'inalid input on XOR.find: input must be a binary string'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'inalid arg on XOR.find: input must be a binary string'</span>)
   <span class="hljs-keyword">var</span> keyBin, key, xorResult, newScore, best
 
   <span class="hljs-keyword">var</span> check = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">zero</span>) </span>{
@@ -34,7 +50,10 @@ Output is an object containing the key, decrypted message, and the decryption sc
     key = zero.slice(keyBin.length) + keyBin
 
     xorResult = Convert.binToAscii( X.combine(input, key) )
-    newScore = Score.frequency(xorResult)
+    <span class="hljs-keyword">if</span> (opts &amp;&amp; opts.score == <span class="hljs-string">'digraph'</span>)
+      newScore = Score.digraph(xorResult)
+    <span class="hljs-keyword">else</span> 
+      newScore = Score.frequency(xorResult)
     <span class="hljs-keyword">if</span> (!best || best.score &lt; newScore) {
       best = {
         score: newScore,
@@ -44,16 +63,22 @@ Output is an object containing the key, decrypted message, and the decryption sc
     }
   }
   <span class="hljs-comment">//test for hex keys</span>
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">16</span>; i++) {
-    check(<span class="hljs-string">'0000'</span>)
+  <span class="hljs-keyword">if</span> (opts &amp;&amp; opts.enc == <span class="hljs-string">'hex'</span>) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">16</span>; i++) {
+      check(<span class="hljs-string">'0000'</span>)
+    }
   }
   <span class="hljs-comment">//test for base64 keys</span>
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">64</span>; i++) {
-    check(<span class="hljs-string">'000000'</span>)
+  <span class="hljs-keyword">if</span> (opts &amp;&amp; opts.enc == <span class="hljs-string">'b64'</span>) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">64</span>; i++) {
+      check(<span class="hljs-string">'000000'</span>)
+    }
   }
   <span class="hljs-comment">//test for ascii keys</span>
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">256</span>; i++) {
-    check(<span class="hljs-string">'00000000'</span>)
+  <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">256</span>; i++) {
+      check(<span class="hljs-string">'00000000'</span>)
+    }
   }
   <span class="hljs-keyword">return</span> best
 }

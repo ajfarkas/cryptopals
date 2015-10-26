@@ -63,6 +63,76 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "JavaScript"
             },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/detect.js",
+            "projectPath": "lib/detect.js",
+            "targetPath": "lib/detect",
+            "pageTitle": "lib/detect",
+            "title": "detect"
+          },
+          "depth": 2
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/encrypt.js",
+            "projectPath": "lib/encrypt.js",
+            "targetPath": "lib/encrypt",
+            "pageTitle": "lib/encrypt",
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Encryption Functions",
+                "slug": "encryption-functions",
+                "isFileHeader": true
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Repeating Key Encryption",
+                    "slug": "repeating-key-encryption"
+                  },
+                  "depth": 2
+                }
+              ]
+            },
+            "title": "Encryption Functions"
+          },
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Repeating Key Encryption",
+                "slug": "repeating-key-encryption"
+              },
+              "depth": 2
+            }
+          ]
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
             "sourcePath": "/Users/aj/Sites/cryptopals/lib/index.js",
             "projectPath": "lib/index.js",
             "targetPath": "lib/index",
@@ -86,9 +156,38 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "lib/score.js",
             "targetPath": "lib/score",
             "pageTitle": "lib/score",
-            "title": "score"
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Decryption Scoring",
+                "slug": "decryption-scoring",
+                "isFileHeader": true
+              },
+              "depth": 1
+            },
+            "title": "Decryption Scoring"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Letter Frequency",
+                "slug": "letter-frequency"
+              },
+              "depth": 1
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Digraph Frequency",
+                "slug": "digraph-frequency"
+              },
+              "depth": 1
+            }
+          ]
         }, {
           "type": "file",
           "data": {

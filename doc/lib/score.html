@@ -8,13 +8,43 @@ Default language is English (because I speak English).
 </ul>
 <p>Output is an integer reflecting the total frequency score. A higher number is better.</p></div></div><div class="code"><div class="wrapper">Score.frequency = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input, lang</span>) </span>{
   <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span>)
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid input on Score.frequency: input must be a string'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Score.frequency: input must be a string'</span>)
   <span class="hljs-comment">//least to most frequent</span>
-  <span class="hljs-keyword">var</span> letters = <span class="hljs-string">'zqxjkvbpygfwmucldrhsnioate'</span>
+  <span class="hljs-keyword">var</span> letters = <span class="hljs-string">'ucldrhsnioate'</span>
   <span class="hljs-keyword">var</span> score = <span class="hljs-number">0</span>
 
   input.split(<span class="hljs-string">''</span>).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">letter</span>) </span>{
     score += letters.indexOf(letter)
+  })
+
+  <span class="hljs-keyword">return</span> score
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="digraph-frequency">Digraph Frequency</h1>
+<p>The input is scored by the frequency of the most common letter pairs in a given language.
+Default language is English.
+<code>input</code> must be a string.
+<code>lang</code> is optional: currrent support is for the following languages:</p>
+<ul>
+<li>&quot;english&quot;</li>
+</ul>
+<p>Output is an integer reflecting the total frequency score. A higher number is better.</p></div></div><div class="code"><div class="wrapper">Score.digraph = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input, lang</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Score.digraph: input must be a string'</span>)
+  <span class="hljs-comment">//least to most frequent</span>
+  <span class="hljs-keyword">var</span> digraphs = [
+    <span class="hljs-string">"ve"</span>, <span class="hljs-string">"rt"</span>, <span class="hljs-string">"de"</span>, <span class="hljs-string">"as"</span>, <span class="hljs-string">"ar"</span>, <span class="hljs-string">"ou"</span>, <span class="hljs-string">"is"</span>, <span class="hljs-string">"le"</span>, <span class="hljs-string">"io"</span>, <span class="hljs-string">"st"</span>,
+    <span class="hljs-string">"it"</span>, <span class="hljs-string">"to"</span>, <span class="hljs-string">"ti"</span>, <span class="hljs-string">"ea"</span>, <span class="hljs-string">"nt"</span>, <span class="hljs-string">"or"</span>, <span class="hljs-string">"of"</span>, <span class="hljs-string">"es"</span>, <span class="hljs-string">"en"</span>, <span class="hljs-string">"at"</span>,
+    <span class="hljs-string">"ha"</span>, <span class="hljs-string">"nd"</span>, <span class="hljs-string">"ed"</span>, <span class="hljs-string">"in"</span>, <span class="hljs-string">"he"</span>, <span class="hljs-string">"re"</span>, <span class="hljs-string">"an"</span>, <span class="hljs-string">"on"</span>, <span class="hljs-string">"er"</span>, <span class="hljs-string">"th"</span>
+  ]
+
+  <span class="hljs-keyword">var</span> score = <span class="hljs-number">0</span>
+  digraphs.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{
+    <span class="hljs-keyword">var</span> regex = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(d, <span class="hljs-string">'g'</span>)
+    <span class="hljs-keyword">var</span> matches = input.match(regex)
+    <span class="hljs-keyword">if</span> (matches) {
+      matches.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        score += i
+      })
+    }
   })
 
   <span class="hljs-keyword">return</span> score
