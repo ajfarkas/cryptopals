@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head><title>crypto</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="crypto"><meta name="groc-project-path" content="crypto.js"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path">crypto.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="crypto">Crypto</h1>
+<p>Exposes high-level functions</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>)
+<span class="hljs-keyword">var</span> Const = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./lib/const'</span>)
+<span class="hljs-keyword">var</span> Detect = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./lib/detect'</span>)
+<span class="hljs-keyword">var</span> Score = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./lib/score'</span>)
+<span class="hljs-keyword">var</span> Convert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./lib/convert'</span>)
+<span class="hljs-keyword">var</span> XOR = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./lib/xor'</span>)
+<span class="hljs-keyword">var</span> Encrypt = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./lib/encrypt'</span>)
+
+<span class="hljs-keyword">var</span> Run = {}
+<span class="hljs-keyword">var</span> func = process.argv[<span class="hljs-number">2</span>]
+
+<span class="hljs-keyword">if</span> (process.argv.length &lt; <span class="hljs-number">4</span>)
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Not enough inputs. Must include at least a function and an input.'</span>)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="repeating-key-encryption">Repeating Key Encryption</h2>
+<p><code>$ node crypto repeatKey -in path/to/file -key password1234</code>
+Flags are used to input args: include arg immediately after the flag.</p>
+<ul>
+<li><code>-in</code>: path to file to encode, or text to encode (use <code>--inline</code> for latter).</li>
+<li><code>-key</code>: <code>string</code> key to encrypt input.</li>
+<li><code>-out</code>: [optional] path to output file.</li>
+<li><code>--inline</code>: [optional] encode input arg as <code>string</code> (reads <code>-in</code> as path to file by default).</li>
+<li><code>-opts</code>: [optional] <code>object</code> containing encoding options.<ul>
+<li><code>encOut</code> determines the encoding of the output.<ul>
+<li>&#39;hex&#39; (default)</li>
+<li>&#39;base64&#39;</li>
+<li>&#39;ascii&#39;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">Run.repeatKey = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">var</span> input, key, output, opts
+  <span class="hljs-keyword">var</span> inputI = process.argv.indexOf(<span class="hljs-string">'-in'</span>)
+  <span class="hljs-keyword">var</span> keyI = process.argv.indexOf(<span class="hljs-string">'-key'</span>)
+  <span class="hljs-keyword">var</span> outputI = process.argv.indexOf(<span class="hljs-string">'-out'</span>)
+  <span class="hljs-keyword">var</span> optsI = process.argv.indexOf(<span class="hljs-string">'-opts'</span>)
+  <span class="hljs-keyword">var</span> stdIn = process.argv.indexOf (<span class="hljs-string">'--inline'</span>) &gt; -<span class="hljs-number">1</span>
+
+  <span class="hljs-keyword">if</span> (inputI &gt; -<span class="hljs-number">1</span>)
+    input = process.argv[inputI + <span class="hljs-number">1</span>]
+  <span class="hljs-keyword">else</span> 
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error: Include "-in" value'</span>)
+  
+  <span class="hljs-keyword">if</span> (keyI &gt; -<span class="hljs-number">1</span>)
+    key = process.argv[keyI + <span class="hljs-number">1</span>]
+  <span class="hljs-keyword">else</span> 
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error: Include "-key" value'</span>)
+  
+  <span class="hljs-keyword">if</span> (outputI &gt; -<span class="hljs-number">1</span>)
+    output = process.argv[outputI + <span class="hljs-number">1</span>] 
+  <span class="hljs-keyword">if</span> (optsI &gt; -<span class="hljs-number">1</span>)
+    opts = <span class="hljs-built_in">JSON</span>.parse(process.argv[optsI + <span class="hljs-number">1</span>])
+
+  <span class="hljs-keyword">var</span> encode = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
+    <span class="hljs-keyword">var</span> encoded = Encrypt.repeatKey(data, key, opts)
+    <span class="hljs-keyword">if</span> (output) {
+      fs.writeFile(output, encoded, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+        <span class="hljs-keyword">if</span> (err) <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Write err! '</span>+err)
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Successfully encoded to '</span>+output)
+      })
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-built_in">console</span>.log(encoded)
+    }
+  }
+
+  <span class="hljs-keyword">if</span> (stdIn) {
+    encode(input)
+  } <span class="hljs-keyword">else</span> {
+    fs.readFile(input, <span class="hljs-string">'utf8'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, data</span>) </span>{
+      <span class="hljs-keyword">if</span> (err) 
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(err)
+      encode(data)
+    })
+  }
+}
+
+<span class="hljs-comment">//Do the things</span>
+Run[func]()</div></div></div></div></body></html>

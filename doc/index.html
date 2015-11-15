@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="README.md"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path">README.md</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="cryptopals-challenge-api">CryptoPals Challenge API</h1>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#basic-conversions">Basic Conversions</a><ul>
+<li><a href="#to-binary">To Binary</a><ul>
+<li><a href="#hexadecimal-to-binary">Hexadecimal to Binary</a></li>
+<li><a href="#base64-to-binary">Base64 to Binary</a></li>
+<li><a href="#ascii-to-binary">Ascii to Binary</a></li>
+</ul>
+</li>
+<li><a href="#from-binary">From Binary</a><ul>
+<li><a href="#binary-to-hex">Binary to Hex</a></li>
+<li><a href="#binary-to-base64">Binary to Base64</a></li>
+<li><a href="#binary-to-ascii">Binary to Ascii</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="basic-conversions">Basic Conversions</h2>
+<p>All conversions use binary as a middle state, if it&#39;s not the endpoint.</p>
+<h3 id="to-binary">To Binary</h3>
+<h5 id="hexadecimal-to-binary">Hexadecimal to Binary</h5>
+<p><code>C.hexToBin( __input__ )</code></p>
+<p>Input must be valid hexadecimal string (0-9, a-f). Returns <code>str</code> composed of <code>1</code>s and <code>0</code>s</p>
+<h5 id="base64-to-binary">Base64 to Binary</h5>
+<p><code>C.base64ToBin( __input__ )</code></p>
+<p>Input must be valid base64 string (0-9, a-f, A-F, +, /). Returns <code>str</code> composed of <code>1</code>s and <code>0</code>s</p>
+<h5 id="ascii-to-binary">Ascii to Binary</h5>
+<p><code>C.asciiToBin( __input__ )</code></p>
+<p>Input must be valid ascii string. Returns <code>str</code> composed of <code>1</code>s and <code>0</code>s</p>
+<h3 id="from-binary">From Binary</h3>
+<h5 id="binary-to-hex">Binary to Hex</h5>
+<p><code>C.binToHex( __input__ )</code></p>
+<p>Input must be <code>str</code> composed of <code>0</code>s and <code>1</code>a. Returns <code>str</code> in hex format.</p>
+<h5 id="binary-to-base64">Binary to Base64</h5>
+<p><code>C.binTo64( __input__ )</code></p>
+<p>Input must be <code>str</code> composed of <code>0</code>s and <code>1</code>a. Returns <code>str</code> in base64 format.</p>
+<h5 id="binary-to-ascii">Binary to Ascii</h5>
+<p><code>C.binToAscii( __input__ )</code></p>
+<p>Input must be <code>str</code> composed of <code>0</code>s and <code>1</code>a. Returns <code>str</code> in Ascii format.</p></div></div></div></div></body></html>

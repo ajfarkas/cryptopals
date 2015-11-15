@@ -1,5 +1,6 @@
 node_modules/
 assets/
+tests/
 
 .git
 .DS_Store
