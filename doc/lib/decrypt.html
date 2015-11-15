@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="en"><head><title>lib/decrypt</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="lib/decrypt"><meta name="groc-project-path" content="lib/decrypt.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">lib/decrypt.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="decryption-functions">Decryption Functions</h1></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-keyword">var</span> Const = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./const'</span>)
+<span class="hljs-keyword">var</span> Detect = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./detect'</span>)
+<span class="hljs-keyword">var</span> Convert = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./convert'</span>)
+<span class="hljs-keyword">var</span> XOR = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./xor'</span>)
+
+<span class="hljs-keyword">var</span> D = {}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="get-hamming-distance">Get Hamming Distance</h2>
+<p>Calculates the number of differing bits between two strings.</p>
+<p>Arguments <code>a</code> &amp; <code>b</code> must be strings. 
+Optional argument <code>enc</code> specifies encoding. Encoding is automatically detected by default.</p></div></div><div class="code"><div class="wrapper">D.getHamming = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b, enc</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> a != <span class="hljs-string">'string'</span> || <span class="hljs-keyword">typeof</span> b != <span class="hljs-string">'string'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Decrypt.getHamming: inputs must be strings'</span>)
+  <span class="hljs-keyword">if</span> (enc &amp;&amp; Const.enc.indexOf(enc) == -<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Decrypt.getHamming: invalid encoding type'</span>)
+  <span class="hljs-keyword">var</span> encA = enc || Detect.encoding(a)
+  <span class="hljs-keyword">var</span> encB = enc || Detect.encoding(b)
+  <span class="hljs-keyword">var</span> binA = encA == <span class="hljs-string">'bin'</span> ? a.split(<span class="hljs-string">''</span>) : Convert[encA+<span class="hljs-string">'ToBin'</span>](a).split(<span class="hljs-string">''</span>)
+  <span class="hljs-keyword">var</span> binB = encB == <span class="hljs-string">'bin'</span> ? b.split(<span class="hljs-string">''</span>) : Convert[encB+<span class="hljs-string">'ToBin'</span>](b).split(<span class="hljs-string">''</span>)
+
+  <span class="hljs-keyword">var</span> len = <span class="hljs-built_in">Math</span>.min(binA.length, binB.length)
+  <span class="hljs-keyword">var</span> distance = <span class="hljs-number">0</span>
+
+  binA.slice(<span class="hljs-number">0</span>, len).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">bitA, i</span>) </span>{
+    <span class="hljs-keyword">if</span> (bitA !== binB[i])
+      distance++
+  })
+  <span class="hljs-keyword">return</span> distance
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="get-key-size">Get Key Size</h2>
+<p><code>Decrypt.getKeySize(&#39;1000110101101001001&#39;, 4, [2, 20], 2);</code></p>
+<p>compare Hamming distance of blocks of bytes to determine probable key size</p>
+<ul>
+<li><code>input</code> (required) is the encyrpted code, converted to binary.</li>
+<li><code>byte</code> (required) is the size of a byte (in the above example, 4 for hexadecimal).</li>
+<li><code>range</code> (required) is an array of the min and max key size to check for (2 to 20 in the above example).</li>
+<li><code>number</code> (optional) is the number of key sizes to return.
+By default, returns an integer representing the likliest key size. If <code>number</code> arg is passed, returns an array of likely key sizes.</li>
+</ul></div></div><div class="code"><div class="wrapper">D.getKeySize = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input, byte, range, number</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Decrypt.getKeySize: input must be a string'</span>)
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> byte != <span class="hljs-string">'number'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Decrypt.getKeySize: bite must be an int'</span>)
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> range != <span class="hljs-string">'object'</span> || range.length != <span class="hljs-number">2</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Decrypt.getKeySize: range must be an array of length 2'</span>)
+  <span class="hljs-keyword">if</span> (input.length &lt; byte * range[<span class="hljs-number">1</span>] * <span class="hljs-number">4</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'arg error on Decrupt.getKeySize: input is too short for requested key size'</span>)
+  <span class="hljs-keyword">if</span> (number &amp;&amp; <span class="hljs-keyword">typeof</span> number != <span class="hljs-string">'number'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Decrypt.getKeySize: input must be an int'</span>)
+  <span class="hljs-comment">//get average hamming distance of two sets of blocks, make array of distance for each key length</span>
+  <span class="hljs-keyword">var</span> results = []
+  <span class="hljs-keyword">var</span> len = range[<span class="hljs-number">1</span>] + <span class="hljs-number">1</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> size = range[<span class="hljs-number">0</span>]; size &lt; len; size++) {
+    <span class="hljs-keyword">var</span> regex = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">'.{'</span>+(size * byte)+<span class="hljs-string">'}'</span>, <span class="hljs-string">'g'</span>)
+    <span class="hljs-keyword">var</span> blocks = input.match(regex)
+    <span class="hljs-keyword">var</span> hamming = ( D.getHamming(blocks[<span class="hljs-number">0</span>], blocks[<span class="hljs-number">1</span>]) + D.getHamming(blocks[<span class="hljs-number">2</span>], blocks[<span class="hljs-number">3</span>]) ) / <span class="hljs-number">2</span>
+    results.push([size, hamming / size])
+  }
+  <span class="hljs-comment">//sort by Hamming distance</span>
+  results.sort(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b</span>) </span>{ <span class="hljs-keyword">return</span> a[<span class="hljs-number">1</span>] - b[<span class="hljs-number">1</span>] })
+  <span class="hljs-comment">//return single best key size or array of best sizes (smallest Hamming)</span>
+  <span class="hljs-keyword">if</span> (number) {
+    <span class="hljs-keyword">return</span> results.slice(<span class="hljs-number">0</span>, number).map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">r</span>) </span>{ <span class="hljs-keyword">return</span> r[<span class="hljs-number">0</span>] })
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> results[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]
+  }
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="repeating-key-decryption">Repeating Key Decryption</h2>
+<p><code>input</code> args must be a string.</p>
+<p>Optional <code>opts</code> arg is an object:</p>
+<ul>
+<li><code>enc</code> declares the suspected encoding of the key.<ul>
+<li>&#39;bin&#39;</li>
+<li>&#39;hex&#39;</li>
+<li>&#39;base64&#39;</li>
+<li>&#39;ascii&#39;</li>
+</ul>
+</li>
+</ul>
+<p>Output is your decrypted <code>string</code>.</p></div></div><div class="code"><div class="wrapper">D.repeatKey = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input, opts</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Decrypt.repeatKey: input must be a string'</span>)
+  <span class="hljs-keyword">if</span> (opts &amp;&amp; <span class="hljs-keyword">typeof</span> opts != <span class="hljs-string">'object'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Decrypt.repeatKey: opts must be an object'</span>)
+  <span class="hljs-keyword">var</span> enc = (opts &amp;&amp; opts.enc) ? opts.enc : Detect.encoding(input.slice(<span class="hljs-number">0</span>, <span class="hljs-number">100</span>))
+  <span class="hljs-comment">//insure input is a binary string</span>
+  <span class="hljs-keyword">if</span> (enc != <span class="hljs-string">'bin'</span>)
+    input = Convert[enc+<span class="hljs-string">'ToBin'</span>](input)
+  <span class="hljs-keyword">var</span> byteLen = (opts &amp;&amp; opts.enc) ? (Const.enc.indexof(opts.enc)+<span class="hljs-number">1</span>) * <span class="hljs-number">2</span> : <span class="hljs-number">8</span>
+  <span class="hljs-keyword">var</span> keyRange = [<span class="hljs-number">2</span>, <span class="hljs-number">40</span>]
+  <span class="hljs-keyword">var</span> keyTries = <span class="hljs-number">2</span>
+
+  D.getKeySize(input.slice(<span class="hljs-number">0</span>, byteLen * <span class="hljs-number">4</span> * keyRange[<span class="hljs-number">1</span>]), byteLen, keyRange, keyTries)
+}
+
+<span class="hljs-built_in">module</span>.exports = D</div></div></div></div></body></html>

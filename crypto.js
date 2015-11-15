@@ -72,6 +72,30 @@ Run.repeatKey = function() {
     })
   }
 }
+//TODO: make this work
+Run.decryptXOR = function() {
+  var input, key, output, opts
+  var inputI = process.argv.indexOf('-in')
+  var keyI = process.argv.indexOf('-key')
+  var outputI = process.argv.indexOf('-out')
+  var optsI = process.argv.indexOf('-opts')
+  var stdIn = process.argv.indexOf ('--inline') > -1
+
+  if (inputI > -1)
+    input = process.argv[inputI + 1]
+  else 
+    return console.error('Error: Include "-in" value')
+  
+  if (keyI > -1)
+    key = process.argv[keyI + 1]
+  else 
+    return console.error('Error: Include "-key" value')
+  
+  if (outputI > -1)
+    output = process.argv[outputI + 1] 
+  if (optsI > -1)
+    opts = JSON.parse(process.argv[optsI + 1])
+}
 
 //Do the things
 Run[func]()

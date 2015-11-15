@@ -6,24 +6,354 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
   tableOfContents = [
     {
-      "type": "file",
+      "type": "folder",
       "data": {
-        "language": {
-          "nameMatchers": [".js"],
-          "pygmentsLexer": "javascript",
-          "multiLineComment": ["/*", "*", "*/"],
-          "singleLineComment": ["//"],
-          "ignorePrefix": "}",
-          "foldPrefix": "^",
-          "name": "JavaScript"
-        },
-        "sourcePath": "/Users/aj/Sites/cryptopals/crypto.js",
-        "projectPath": "crypto.js",
-        "targetPath": "crypto",
-        "pageTitle": "crypto",
-        "title": "crypto"
+        "path": "lib",
+        "title": "lib"
       },
-      "depth": 1
+      "depth": 1,
+      "children": [
+        {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/const.js",
+            "projectPath": "lib/const.js",
+            "targetPath": "lib/const",
+            "pageTitle": "lib/const",
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Constants",
+                "slug": "constants",
+                "isFileHeader": true
+              },
+              "depth": 1
+            },
+            "title": "Constants"
+          },
+          "depth": 2,
+          "outline": []
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/convert.js",
+            "projectPath": "lib/convert.js",
+            "targetPath": "lib/convert",
+            "pageTitle": "lib/convert",
+            "title": "convert"
+          },
+          "depth": 2
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/decrypt.js",
+            "projectPath": "lib/decrypt.js",
+            "targetPath": "lib/decrypt",
+            "pageTitle": "lib/decrypt",
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Decryption Functions",
+                "slug": "decryption-functions",
+                "isFileHeader": true
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Get Hamming Distance",
+                    "slug": "get-hamming-distance"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Get Key Size",
+                    "slug": "get-key-size"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Repeating Key Decryption",
+                    "slug": "repeating-key-decryption"
+                  },
+                  "depth": 2
+                }
+              ]
+            },
+            "title": "Decryption Functions"
+          },
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Get Hamming Distance",
+                "slug": "get-hamming-distance"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Get Key Size",
+                "slug": "get-key-size"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Repeating Key Decryption",
+                "slug": "repeating-key-decryption"
+              },
+              "depth": 2
+            }
+          ]
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/detect.js",
+            "projectPath": "lib/detect.js",
+            "targetPath": "lib/detect",
+            "pageTitle": "lib/detect",
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Detection Functions",
+                "slug": "detection-functions",
+                "isFileHeader": true
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Detect Encoding",
+                    "slug": "detect-encoding"
+                  },
+                  "depth": 2
+                }
+              ]
+            },
+            "title": "Detection Functions"
+          },
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Detect Encoding",
+                "slug": "detect-encoding"
+              },
+              "depth": 2
+            }
+          ]
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/encrypt.js",
+            "projectPath": "lib/encrypt.js",
+            "targetPath": "lib/encrypt",
+            "pageTitle": "lib/encrypt",
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Encryption Functions",
+                "slug": "encryption-functions",
+                "isFileHeader": true
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Repeating Key Encryption",
+                    "slug": "repeating-key-encryption"
+                  },
+                  "depth": 2
+                }
+              ]
+            },
+            "title": "Encryption Functions"
+          },
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Repeating Key Encryption",
+                "slug": "repeating-key-encryption"
+              },
+              "depth": 2
+            }
+          ]
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/index.js",
+            "projectPath": "lib/index.js",
+            "targetPath": "lib/index",
+            "pageTitle": "lib/index",
+            "title": "index"
+          },
+          "depth": 2
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/score.js",
+            "projectPath": "lib/score.js",
+            "targetPath": "lib/score",
+            "pageTitle": "lib/score",
+            "title": "score"
+          },
+          "depth": 2
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".js"],
+              "pygmentsLexer": "javascript",
+              "multiLineComment": ["/*", "*", "*/"],
+              "singleLineComment": ["//"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "JavaScript"
+            },
+            "sourcePath": "/Users/aj/Sites/cryptopals/lib/xor.js",
+            "projectPath": "lib/xor.js",
+            "targetPath": "lib/xor",
+            "pageTitle": "lib/xor",
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Xor Functions",
+                "slug": "xor-functions",
+                "isFileHeader": true
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "XOR Combine",
+                    "slug": "xor-combine"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Find Single-Character XOR Key",
+                    "slug": "find-single-character-xor-key"
+                  },
+                  "depth": 2
+                }
+              ]
+            },
+            "title": "Xor Functions"
+          },
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "XOR Combine",
+                "slug": "xor-combine"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Find Single-Character XOR Key",
+                "slug": "find-single-character-xor-key"
+              },
+              "depth": 2
+            }
+          ]
+        }
+      ]
     }
   ];
 

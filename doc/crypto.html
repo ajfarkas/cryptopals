@@ -73,6 +73,30 @@ Flags are used to input args: include arg immediately after the flag.</p>
     })
   }
 }
+<span class="hljs-comment">//<span class="hljs-doctag">TODO:</span> make this work</span>
+Run.decryptXOR = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">var</span> input, key, output, opts
+  <span class="hljs-keyword">var</span> inputI = process.argv.indexOf(<span class="hljs-string">'-in'</span>)
+  <span class="hljs-keyword">var</span> keyI = process.argv.indexOf(<span class="hljs-string">'-key'</span>)
+  <span class="hljs-keyword">var</span> outputI = process.argv.indexOf(<span class="hljs-string">'-out'</span>)
+  <span class="hljs-keyword">var</span> optsI = process.argv.indexOf(<span class="hljs-string">'-opts'</span>)
+  <span class="hljs-keyword">var</span> stdIn = process.argv.indexOf (<span class="hljs-string">'--inline'</span>) &gt; -<span class="hljs-number">1</span>
+
+  <span class="hljs-keyword">if</span> (inputI &gt; -<span class="hljs-number">1</span>)
+    input = process.argv[inputI + <span class="hljs-number">1</span>]
+  <span class="hljs-keyword">else</span> 
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error: Include "-in" value'</span>)
+  
+  <span class="hljs-keyword">if</span> (keyI &gt; -<span class="hljs-number">1</span>)
+    key = process.argv[keyI + <span class="hljs-number">1</span>]
+  <span class="hljs-keyword">else</span> 
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error: Include "-key" value'</span>)
+  
+  <span class="hljs-keyword">if</span> (outputI &gt; -<span class="hljs-number">1</span>)
+    output = process.argv[outputI + <span class="hljs-number">1</span>] 
+  <span class="hljs-keyword">if</span> (optsI &gt; -<span class="hljs-number">1</span>)
+    opts = <span class="hljs-built_in">JSON</span>.parse(process.argv[optsI + <span class="hljs-number">1</span>])
+}
 
 <span class="hljs-comment">//Do the things</span>
 Run[func]()</div></div></div></div></body></html>

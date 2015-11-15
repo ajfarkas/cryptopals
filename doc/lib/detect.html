@@ -3,7 +3,7 @@
 Output will be a <code>string</code> with the encoding label (from <code>Const.enc</code>)
 Current support:</p>
 <ul>
-<li>binary</li>
+<li>bin</li>
 <li>hexadecimal</li>
 <li>base64</li>
 <li>ascii</li>
@@ -12,7 +12,7 @@ Current support:</p>
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Detect.encoding: input must be a string'</span>)
   
   <span class="hljs-keyword">if</span> (!input.match(<span class="hljs-regexp">/[^01]/</span>))
-    <span class="hljs-keyword">return</span> <span class="hljs-string">'binary'</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'bin'</span>
   <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!input.match(<span class="hljs-regexp">/[^0-9a-fA-F]/</span>) &amp;&amp; !input.match(<span class="hljs-regexp">/[a-f][A-F]/</span>))
     <span class="hljs-keyword">return</span> <span class="hljs-string">'hex'</span>
   <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!input.match(<span class="hljs-regexp">/[^A-Za-z0-9+/]/</span>))
