@@ -61,8 +61,32 @@ By default, returns an integer representing the likliest key size. If <code>numb
   } <span class="hljs-keyword">else</span> {
     <span class="hljs-keyword">return</span> results[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]
   }
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="transpose-byte-blocks">Transpose byte blocks</h2>
+<p><code>Decrypt.transpose(&quot;10010101000101001001&quot;, 3, 4)</code></p>
+<ul>
+<li><code>input</code> arg must be a string.</li>
+<li><code>size</code> arg (<code>int</code>) is the key length (ie, 3 characters)</li>
+<li><code>byteLen</code> arg (<code>int</code>) is the number of bits per byte (ie, 4 bits for hex)</li>
+</ul>
+<p>Output is an <code>array</code> of <code>string</code>s.</p></div></div><div class="code"><div class="wrapper">D.transpose = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input, size, byteLen</span>) </span>{
+  <span class="hljs-keyword">var</span> blocksRegex = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">'.{'</span>+size * byteLen+<span class="hljs-string">'}'</span>, <span class="hljs-string">'g'</span>)
+    <span class="hljs-keyword">var</span> byteRegex = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">'.{'</span>+byteLen+<span class="hljs-string">'}'</span>, <span class="hljs-string">'g'</span>)
+    <span class="hljs-keyword">var</span> blocks = input.match(blocksRegex)
+    <span class="hljs-keyword">var</span> transBlocks = []
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; size; i++) {
+      transBlocks[i] = <span class="hljs-string">''</span>
+    }
+    <span class="hljs-comment">//transpose into blocks of nth byte [nnn,n'n'n', n''n''n'', etc.]</span>
+    blocks.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">block</span>) </span>{
+      <span class="hljs-keyword">var</span> bytes = block.match(byteRegex)
+      bytes.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">byte, i</span>) </span>{
+        transBlocks[i % size] += byte
+      })
+    })
+  <span class="hljs-keyword">return</span> transBlocks    
 }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="repeating-key-decryption">Repeating Key Decryption</h2>
-<p><code>input</code> args must be a string.</p>
+<p><code>Decrypt.repeatKey(&quot;10010101000101001001&quot;, &#39;{&quot;keyrange&quot;: [8, 16], &quot;keytries&quot;: 2}&#39;)</code></p>
+<p><code>input</code> arg must be a string.</p>
 <p>Optional <code>opts</code> arg is an object:</p>
 <ul>
 <li><code>enc</code> declares the suspected encoding of the key.<ul>
@@ -72,8 +96,10 @@ By default, returns an integer representing the likliest key size. If <code>numb
 <li>&#39;ascii&#39;</li>
 </ul>
 </li>
+<li><code>keyrange</code> sets a keysize range to check. This must be an array of length 2. Default is [2, 40].</li>
+<li><code>keytries</code> sets the number of keysizes to check. This must be an <code>int</code>. Default is 2.</li>
 </ul>
-<p>Output is your decrypted <code>string</code>.</p></div></div><div class="code"><div class="wrapper">D.repeatKey = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input, opts</span>) </span>{
+<p>Output is an <code>array</code> of [keytries] key <code>string</code>(s): <code>[&quot;password&quot;, &quot;PasSword1234&quot;]</code></p></div></div><div class="code"><div class="wrapper">D.getRepeatKey = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input, opts</span>) </span>{
   <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span>)
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Decrypt.repeatKey: input must be a string'</span>)
   <span class="hljs-keyword">if</span> (opts &amp;&amp; <span class="hljs-keyword">typeof</span> opts != <span class="hljs-string">'object'</span>)
@@ -83,10 +109,25 @@ By default, returns an integer representing the likliest key size. If <code>numb
   <span class="hljs-keyword">if</span> (enc != <span class="hljs-string">'bin'</span>)
     input = Convert[enc+<span class="hljs-string">'ToBin'</span>](input)
   <span class="hljs-keyword">var</span> byteLen = (opts &amp;&amp; opts.enc) ? (Const.enc.indexof(opts.enc)+<span class="hljs-number">1</span>) * <span class="hljs-number">2</span> : <span class="hljs-number">8</span>
-  <span class="hljs-keyword">var</span> keyRange = [<span class="hljs-number">2</span>, <span class="hljs-number">40</span>]
-  <span class="hljs-keyword">var</span> keyTries = <span class="hljs-number">2</span>
+  <span class="hljs-keyword">var</span> keyRange = (opts &amp;&amp; opts.keyrange) ? opts.keyrange : [<span class="hljs-number">2</span>, <span class="hljs-number">40</span>]
+  <span class="hljs-keyword">var</span> keyTries = (opts &amp;&amp; opts.keytries) ? opts.keytries : <span class="hljs-number">2</span>
 
-  D.getKeySize(input.slice(<span class="hljs-number">0</span>, byteLen * <span class="hljs-number">4</span> * keyRange[<span class="hljs-number">1</span>]), byteLen, keyRange, keyTries)
+  <span class="hljs-keyword">var</span> sizes = D.getKeySize(input.slice(<span class="hljs-number">0</span>, byteLen * keyRange[<span class="hljs-number">1</span>] * <span class="hljs-number">500</span>), byteLen, keyRange, keyTries)
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> sizes == <span class="hljs-string">'number'</span>)
+    sizes = [sizes]
+<span class="hljs-built_in">console</span>.log(sizes)
+  <span class="hljs-keyword">var</span> keyResults = []
+
+  sizes.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">size</span>) </span>{
+    transBlocks = D.transpose(input, size, byteLen)
+    <span class="hljs-keyword">var</span> key = <span class="hljs-string">''</span>
+    transBlocks.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">tBlock</span>) </span>{
+      key += XOR.findSingle(tBlock, { <span class="hljs-keyword">return</span>: <span class="hljs-string">'key'</span>, noUnicode: <span class="hljs-literal">false</span> })
+    })
+    keyResults.push(Convert.binToAscii(key))
+  })
+
+  <span class="hljs-keyword">return</span> keyResults
 }
 
 <span class="hljs-built_in">module</span>.exports = D</div></div></div></div></body></html>

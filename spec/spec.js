@@ -1,12 +1,12 @@
 describe("Convert", function() {
   var Convert = require('../lib/convert')
-  var binary = '010010010010011101101101001000000110101101101001011011000110110001101001011011100110011100100000011110010110111101110101011100100010000001100010011100100110000101101001011011100010000001101100011010010110101101100101001000000110000100100000011100000110111101101001011100110110111101101110011011110111010101110011001000000110110101110101011100110110100001110010011011110110111101101101'
-  var hex = '49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d'
-  var b64 = 'SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t'
-  var ascii = "I'm killing your brain like a poisonous mushroom"
+  var binary = '01001001001001110110110100100000011010110110100101101100011011000110100101101110011001110010000001111001011011110111010101110010001000000110001001110010011000010110100101101110001000000110110001101001011010110110010100100000011000010010000001110000011011110110100101110011011011110110111001101111011101010111001100100000011011010111010101110011011010000111001001101111011011110110110100100001'
+  var hex = '49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d21'
+  var b64 = 'SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29tIQ=='
+  var ascii = "I'm killing your brain like a poisonous mushroom!"
   
   it("should convert hex to base 64", function() {
-    var answer = Convert.hexTo64(hex)
+    var answer = Convert.hexToBase64(hex)
     expect(answer).toEqual(b64)
   })
 
@@ -31,7 +31,7 @@ describe("Convert", function() {
   })
 
   it("should convert ascii to base64", function() {
-    var answer = Convert.asciiTo64(ascii)
+    var answer = Convert.asciiToBase64(ascii)
     expect(answer).toEqual(b64)
   })
 })
@@ -98,18 +98,31 @@ describe("XOR", function() {
 
 describe("Encrypt", function() {
   var Encrypt = require('../lib/encrypt')
+  var Convert = require('../lib/convert')
 
   it("should encrypt with repeat-key to hex encoding", function() {
     var str = "Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"
     var result = "0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f"
 
     var encrypted = Encrypt.repeatKey(str, 'ICE')
+    var decrypted = Encrypt.repeatKey(result, 'ICE', { encOut: 'ascii' })
     expect(encrypted).toEqual(result)
+    expect(decrypted).toEqual(str)
+  })
+
+  it("should output a string of the same bit length as the input", function() {
+    var input = "hello"
+    var inputBin = Convert.asciiToBin(input)
+    var key = "ab"
+
+    var output = Encrypt.repeatKey(input, key, { enc: 'ascii', encOut: 'bin' })
+    expect(output.length).toEqual(inputBin.length)
   })
 })
 
 describe("Decrypt", function() {
   var Decrypt = require('../lib/decrypt')
+  var fs = require('fs')
 
   it("should provide the hamming distance of two given strings", function() {
     var a = "this is a test"
@@ -121,9 +134,25 @@ describe("Decrypt", function() {
 
   it("should find the key length of a given repeat-key encrypted string", function() {
     var str = "000111100000111000000100010100110001111000011100010100100001000000011000000001000101001100000111000111100000001000010111010001000001011000001110000000010101001100010110000000110001111001000100000101110000111000011100000101110101011100001010000111100000000100000000000010010001001000011101000000110001110001010010000100000001111101000001000000110001001000010100000001000101001000010000000110000000010000011010000000010101011100011011000000000001000100011110000010100000000001011101010101110010100100011101000101100101000000010101000110110001011001010111000010100001110000000000010100000000100000000000010100110001100100001010000100110001011001011100010000010001001000011101000100110100111100010011000010100101000000000100000111110001011000000111000001110001001100001010000001000100000100011101000101100000000100001010000000000100010000010110000011100000000100010100000100100001101100000001"
+    var keysize = Decrypt.getKeySize(str, [2, 12], 2)
     
-    var keysize = Decrypt.getKeySize(str, 8, [2, 20], 4)
     expect(keysize).toContain(8)
+  })
+
+  it("should transpose blocks of bytes", function() {
+    var str = '000000111111000111010101000000'
+
+    var tb = Decrypt.transpose(str, 2, 3)
+    expect(tb).toEqual(['000111000010000', '000111111101000'])
+  })
+
+  it("should decrypt repeat-key XOR encoding", function() {
+    // var input = fs.readFileSync('../tests/6.txt', { encoding: 'UTF8'})
+    var str = "0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f"
+    var message = "Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"
+
+    var keys = Decrypt.getRepeatKey(str, { keyrange: [2, 8], keytries: 2 })
+    expect(keys).toContain('ICE')
   })
 })
 

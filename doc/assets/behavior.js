@@ -29,20 +29,9 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "lib/const.js",
             "targetPath": "lib/const",
             "pageTitle": "lib/const",
-            "firstHeader": {
-              "type": "heading",
-              "data": {
-                "level": 1,
-                "title": "Constants",
-                "slug": "constants",
-                "isFileHeader": true
-              },
-              "depth": 1
-            },
-            "title": "Constants"
+            "title": "const"
           },
-          "depth": 2,
-          "outline": []
+          "depth": 2
         }, {
           "type": "file",
           "data": {
@@ -108,6 +97,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 2,
+                    "title": "Transpose byte blocks",
+                    "slug": "transpose-byte-blocks"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
                     "title": "Repeating Key Decryption",
                     "slug": "repeating-key-decryption"
                   },
@@ -139,6 +136,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
+                "title": "Transpose byte blocks",
+                "slug": "transpose-byte-blocks"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
                 "title": "Repeating Key Decryption",
                 "slug": "repeating-key-decryption"
               },
@@ -161,41 +166,9 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "lib/detect.js",
             "targetPath": "lib/detect",
             "pageTitle": "lib/detect",
-            "firstHeader": {
-              "type": "heading",
-              "data": {
-                "level": 1,
-                "title": "Detection Functions",
-                "slug": "detection-functions",
-                "isFileHeader": true
-              },
-              "depth": 1,
-              "children": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 2,
-                    "title": "Detect Encoding",
-                    "slug": "detect-encoding"
-                  },
-                  "depth": 2
-                }
-              ]
-            },
-            "title": "Detection Functions"
+            "title": "detect"
           },
-          "depth": 2,
-          "outline": [
-            {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "Detect Encoding",
-                "slug": "detect-encoding"
-              },
-              "depth": 2
-            }
-          ]
+          "depth": 2
         }, {
           "type": "file",
           "data": {
@@ -282,9 +255,38 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "lib/score.js",
             "targetPath": "lib/score",
             "pageTitle": "lib/score",
-            "title": "score"
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Decryption Scoring",
+                "slug": "decryption-scoring",
+                "isFileHeader": true
+              },
+              "depth": 1
+            },
+            "title": "Decryption Scoring"
           },
-          "depth": 2
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Letter Frequency",
+                "slug": "letter-frequency"
+              },
+              "depth": 1
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Digraph Frequency",
+                "slug": "digraph-frequency"
+              },
+              "depth": 1
+            }
+          ]
         }, {
           "type": "file",
           "data": {
@@ -301,57 +303,9 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "lib/xor.js",
             "targetPath": "lib/xor",
             "pageTitle": "lib/xor",
-            "firstHeader": {
-              "type": "heading",
-              "data": {
-                "level": 1,
-                "title": "Xor Functions",
-                "slug": "xor-functions",
-                "isFileHeader": true
-              },
-              "depth": 1,
-              "children": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 2,
-                    "title": "XOR Combine",
-                    "slug": "xor-combine"
-                  },
-                  "depth": 2
-                }, {
-                  "type": "heading",
-                  "data": {
-                    "level": 2,
-                    "title": "Find Single-Character XOR Key",
-                    "slug": "find-single-character-xor-key"
-                  },
-                  "depth": 2
-                }
-              ]
-            },
-            "title": "Xor Functions"
+            "title": "xor"
           },
-          "depth": 2,
-          "outline": [
-            {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "XOR Combine",
-                "slug": "xor-combine"
-              },
-              "depth": 2
-            }, {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "Find Single-Character XOR Key",
-                "slug": "find-single-character-xor-key"
-              },
-              "depth": 2
-            }
-          ]
+          "depth": 2
         }
       ]
     }

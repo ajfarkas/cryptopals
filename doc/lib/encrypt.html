@@ -18,9 +18,11 @@ Optional <code>opts</code> arg is an object, with the following possible keys:</
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Encrypt.repeatKey: input must be a string'</span>)
   <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> key != <span class="hljs-string">'string'</span>)
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Encrypt.repeatKey: key must be a string'</span>)
-  <span class="hljs-comment">//insure input and key are binary strings</span>
-  <span class="hljs-keyword">if</span> (Detect.encoding(input) != <span class="hljs-string">'bin'</span>)
-    input = Convert.asciiToBin(input)
+  <span class="hljs-keyword">var</span> enc = (opts &amp;&amp; opts.enc) ? opts.enc : Detect.encoding(input.slice(<span class="hljs-number">0</span>, <span class="hljs-number">100</span>))
+  <span class="hljs-comment">//insure input is a binary string</span>
+  <span class="hljs-keyword">if</span> (enc != <span class="hljs-string">'bin'</span>)
+    input = Convert[enc+<span class="hljs-string">'ToBin'</span>](input)
+  <span class="hljs-comment">//insure key is a binary string</span>
   <span class="hljs-keyword">if</span> (Detect.encoding(key) != <span class="hljs-string">'bin'</span>)
     key = Convert.asciiToBin(key)
 

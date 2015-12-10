@@ -1,0 +1,3 @@
+ToDo:
+X Work on conversions from b64 to ascii: when there are leftover bins, what to do with them to maintain fidelity?
+X Suspect there is an err in Decrypt.getKeySize. Try calculating hamming distances again, maybe averaging average distance with max distance. Or average max and min distances. ** problem was with scoring: missing \s char.
