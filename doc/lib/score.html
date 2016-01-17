@@ -18,8 +18,8 @@ Default language is English (because I speak English).</p>
   <span class="hljs-keyword">if</span> (opts &amp;&amp; <span class="hljs-keyword">typeof</span> opts != <span class="hljs-string">'object'</span>)
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on Score.frequency: options must be an object'</span>)
   <span class="hljs-comment">//least to most frequent</span>
-  <span class="hljs-keyword">var</span> ascii = <span class="hljs-string">'HRMFSDCBWAOTucldrhsnioate'</span>
-  <span class="hljs-keyword">var</span> unicode = [<span class="hljs-number">10</span>, <span class="hljs-number">72</span>, <span class="hljs-number">82</span>, <span class="hljs-number">77</span>, <span class="hljs-number">70</span>, <span class="hljs-number">83</span>, <span class="hljs-number">68</span>, <span class="hljs-number">67</span>, <span class="hljs-number">66</span>, <span class="hljs-number">87</span>, <span class="hljs-number">65</span>, <span class="hljs-number">79</span>, <span class="hljs-number">84</span>, <span class="hljs-number">117</span>, <span class="hljs-number">99</span>, <span class="hljs-number">108</span>, <span class="hljs-number">100</span>, <span class="hljs-number">114</span>, <span class="hljs-number">104</span>, <span class="hljs-number">115</span>, <span class="hljs-number">110</span>, <span class="hljs-number">105</span>, <span class="hljs-number">111</span>, <span class="hljs-number">97</span>, <span class="hljs-number">116</span>, <span class="hljs-number">101</span>]
+  <span class="hljs-keyword">var</span> ascii = <span class="hljs-string">'HRMFSDCBWAOTucldrhs nioate'</span>
+  <span class="hljs-keyword">var</span> unicode = [<span class="hljs-number">10</span>, <span class="hljs-number">72</span>, <span class="hljs-number">82</span>, <span class="hljs-number">77</span>, <span class="hljs-number">70</span>, <span class="hljs-number">83</span>, <span class="hljs-number">68</span>, <span class="hljs-number">67</span>, <span class="hljs-number">66</span>, <span class="hljs-number">87</span>, <span class="hljs-number">65</span>, <span class="hljs-number">79</span>, <span class="hljs-number">84</span>, <span class="hljs-number">117</span>, <span class="hljs-number">99</span>, <span class="hljs-number">108</span>, <span class="hljs-number">100</span>, <span class="hljs-number">114</span>, <span class="hljs-number">104</span>, <span class="hljs-number">115</span>, <span class="hljs-number">20</span>, <span class="hljs-number">110</span>, <span class="hljs-number">105</span>, <span class="hljs-number">111</span>, <span class="hljs-number">97</span>, <span class="hljs-number">116</span>, <span class="hljs-number">101</span>]
   <span class="hljs-keyword">var</span> score = <span class="hljs-number">0</span>
 
   <span class="hljs-keyword">var</span> letters = opts &amp;&amp; opts.noUnicode ? unicode : ascii
@@ -27,8 +27,8 @@ Default language is English (because I speak English).</p>
   <span class="hljs-keyword">if</span> (opts &amp;&amp; opts.noUnicode) {
     input.split(<span class="hljs-string">''</span>).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">letter</span>) </span>{
       <span class="hljs-keyword">var</span> code = letter.charCodeAt()
-      <span class="hljs-keyword">if</span> (code &lt; <span class="hljs-number">32</span> &amp;&amp; code &gt; <span class="hljs-number">128</span>)
-        score = -<span class="hljs-number">20</span>
+      <span class="hljs-keyword">if</span> (code != <span class="hljs-number">10</span> &amp;&amp; (code &lt; <span class="hljs-number">32</span> || code &gt; <span class="hljs-number">128</span> || code == <span class="hljs-literal">NaN</span>))
+        score -= <span class="hljs-number">200</span>
       <span class="hljs-keyword">else</span>
         score += letters.indexOf(code)
     })

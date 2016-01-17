@@ -185,41 +185,9 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             "projectPath": "lib/encrypt.js",
             "targetPath": "lib/encrypt",
             "pageTitle": "lib/encrypt",
-            "firstHeader": {
-              "type": "heading",
-              "data": {
-                "level": 1,
-                "title": "Encryption Functions",
-                "slug": "encryption-functions",
-                "isFileHeader": true
-              },
-              "depth": 1,
-              "children": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 2,
-                    "title": "Repeating Key Encryption",
-                    "slug": "repeating-key-encryption"
-                  },
-                  "depth": 2
-                }
-              ]
-            },
-            "title": "Encryption Functions"
+            "title": "encrypt"
           },
-          "depth": 2,
-          "outline": [
-            {
-              "type": "heading",
-              "data": {
-                "level": 2,
-                "title": "Repeating Key Encryption",
-                "slug": "repeating-key-encryption"
-              },
-              "depth": 2
-            }
-          ]
+          "depth": 2
         }, {
           "type": "file",
           "data": {

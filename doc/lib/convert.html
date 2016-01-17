@@ -16,9 +16,10 @@ Outputs will be strings composed of <code>1</code>s and <code>0</code>s. </p></d
   <span class="hljs-comment">//output string</span>
   <span class="hljs-keyword">return</span> bin.join(<span class="hljs-string">''</span>)
 }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>C.base64ToBin(&#39;/&#39;)</code> returns &#39;111111&#39;</p></div></div><div class="code"><div class="wrapper">C.base64ToBin = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
-  <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^0-9a-zA-Z+/]/</span>) )
+  <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^0-9a-zA-Z+/=]/</span>) )
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on base64ToBin: base64 strings only'</span>)
-  <span class="hljs-keyword">var</span> b64 = input.split(<span class="hljs-string">''</span>),
+  <span class="hljs-keyword">var</span> padding = input.match(<span class="hljs-string">'='</span>) ? input.match(<span class="hljs-regexp">/\=/g</span>).length : <span class="hljs-number">0</span>,
+      b64 = input.replace(<span class="hljs-regexp">/\=/g</span>, <span class="hljs-string">''</span>).split(<span class="hljs-string">''</span>),
       zero = <span class="hljs-string">'000000'</span>
   <span class="hljs-comment">//map each b64 digit to a six-digit binary number</span>
   <span class="hljs-keyword">var</span> bin = b64.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">num</span>) </span>{
@@ -26,8 +27,9 @@ Outputs will be strings composed of <code>1</code>s and <code>0</code>s. </p></d
     <span class="hljs-comment">//add any necessary leading zeroes</span>
     <span class="hljs-keyword">return</span> zero.slice(digits.length) + digits
   })
+  <span class="hljs-keyword">var</span> result = bin.join(<span class="hljs-string">''</span>)
   <span class="hljs-comment">//output string</span>
-  <span class="hljs-keyword">return</span> bin.join(<span class="hljs-string">''</span>)
+  <span class="hljs-keyword">return</span> result.slice(<span class="hljs-number">0</span>, result.length - (<span class="hljs-number">2</span> * padding) )
 }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>C.asciiToBin(&#39;!&#39;)</code> returns &#39;00100001&#39;</p></div></div><div class="code"><div class="wrapper">C.asciiToBin = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
   <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> )
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on asciiToBin: ascii strings only'</span>)
@@ -45,10 +47,10 @@ Outputs will be strings composed of <code>1</code>s and <code>0</code>s. </p></d
 Outputs will be strings in the format of the appropriate encoding. </p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>C.binToHex(&#39;1111&#39;)</code> returns &#39;f&#39;</p></div></div><div class="code"><div class="wrapper">C.binToHex = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">input</span>) </span>{
   <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^01]/</span>) )
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on binToHex: binary strings only '</span>)
-  <span class="hljs-comment">//check if leading zeroes are necessary</span>
-  <span class="hljs-keyword">var</span> pre = input.length % <span class="hljs-number">4</span>,
+  <span class="hljs-comment">//check if trailing zeroes are necessary</span>
+  <span class="hljs-keyword">var</span> post = input.length % <span class="hljs-number">4</span>,
       zero = <span class="hljs-string">'0000'</span>
-  input = pre &gt; <span class="hljs-number">0</span> ? zero.slice(pre) + input : input
+  input = post &gt; <span class="hljs-number">0</span> ? input + zero.slice(post) : input
   <span class="hljs-comment">//create array of 4-digit binary sets</span>
   <span class="hljs-keyword">var</span> sets = input.match(<span class="hljs-regexp">/\d{4}/g</span>)
   <span class="hljs-comment">//map each binary set to a hex digit</span>
@@ -57,14 +59,20 @@ Outputs will be strings in the format of the appropriate encoding. </p></div></d
   })
   <span class="hljs-comment">//return as string</span>
   <span class="hljs-keyword">return</span> result.join(<span class="hljs-string">''</span>)
-}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>C.binTo64(&#39;111000&#39;)</code> returns &#39;4&#39;</p></div></div><div class="code"><div class="wrapper">C.binTo64 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
+}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>C.binToBase64(&#39;111000&#39;)</code> returns &#39;4&#39;
+<code>C.binToBase64(&#39;1110&#39;)</code> returns &#39;4=&#39;</p></div></div><div class="code"><div class="wrapper">C.binToBase64 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
   <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^01]/</span>) )
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on binTo64: binary strings only '</span>)
-  <span class="hljs-comment">//check if leading zeroes are necessary</span>
-  <span class="hljs-keyword">var</span> pre = input.length % <span class="hljs-number">6</span>,
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on binToBase64: binary strings only '</span>)
+  <span class="hljs-comment">//check if trailing zeroes are necessary</span>
+  <span class="hljs-keyword">var</span> post = input.length % <span class="hljs-number">6</span>,
       zero = <span class="hljs-string">'000000'</span>
+  <span class="hljs-keyword">var</span> padding = <span class="hljs-string">''</span>
 
-  input = pre &gt; <span class="hljs-number">0</span> ? zero.slice(pre) + input : input
+  <span class="hljs-keyword">if</span> (post == <span class="hljs-number">4</span>)
+    padding = <span class="hljs-string">'='</span>
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (post == <span class="hljs-number">2</span>)
+    padding = <span class="hljs-string">'=='</span>
+  input = post &gt; <span class="hljs-number">0</span> ? input + zero.slice(post) : input
   <span class="hljs-comment">//create array of 6-digit binary sets</span>
   <span class="hljs-keyword">var</span> sets = input.match(<span class="hljs-regexp">/\d{6}/g</span>)
   <span class="hljs-comment">//map each binary set to a base-64 digit</span>
@@ -72,15 +80,15 @@ Outputs will be strings in the format of the appropriate encoding. </p></div></d
     <span class="hljs-keyword">return</span> Const.base64[<span class="hljs-built_in">parseInt</span>(num, <span class="hljs-number">2</span>)]
   })
   <span class="hljs-comment">//return as string</span>
-  <span class="hljs-keyword">return</span> result.join(<span class="hljs-string">''</span>)
+  <span class="hljs-keyword">return</span> result.join(<span class="hljs-string">''</span>)+padding
 }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>C.binToAscii(&#39;00100100&#39;)</code> returns &#39;$&#39;&#39;</p></div></div><div class="code"><div class="wrapper">C.binToAscii = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
   <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^01]/</span>) )
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on binToAscii: binary strings only '</span>)
-  <span class="hljs-comment">//check if leading zeroes are necessary</span>
-  <span class="hljs-keyword">var</span> pre = input.length % <span class="hljs-number">8</span>,
+  <span class="hljs-comment">//check if trailing zeroes are necessary</span>
+  <span class="hljs-keyword">var</span> post = input.length % <span class="hljs-number">8</span>,
       zero = <span class="hljs-string">'00000000'</span>
 
-  input = pre &gt; <span class="hljs-number">0</span> ? zero.slice(pre) + input : input
+  input = post &gt; <span class="hljs-number">0</span> ?  input + zero.slice(post) : input
 
   <span class="hljs-keyword">var</span> sets = input.match(<span class="hljs-regexp">/\d{8}/g</span>)
 
@@ -91,10 +99,10 @@ Outputs will be strings in the format of the appropriate encoding. </p></div></d
   <span class="hljs-keyword">return</span> result.join(<span class="hljs-string">''</span>)
 }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="other-encoding-conversions">Other Encoding Conversions</h2>
 <p>All inputs must be strings and limited to the appropriate character set.
-Outputs will be strings.</p></div></div><div class="code"><div class="wrapper">C.hexTo64 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
+Outputs will be strings.</p></div></div><div class="code"><div class="wrapper">C.hexToBase64 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
   <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^a-fA-F0-9]/</span>) )
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on hextTo64: hexadecimal strings only'</span>)
-  <span class="hljs-keyword">return</span> C.binTo64( C.hexToBin(input) )
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on hextToBase64: hexadecimal strings only'</span>)
+  <span class="hljs-keyword">return</span> C.binToBase64( C.hexToBin(input) )
 }
 C.hexToAscii = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
   <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^a-fA-F0-9]/</span>) )
@@ -102,12 +110,12 @@ C.hexToAscii = <span class="hljs-function"><span class="hljs-keyword">function</
   <span class="hljs-keyword">return</span> C.binToAscii( C.hexToBin(input) )
 }
 C.base64ToHex = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
-  <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^0-9a-zA-Z+/]/</span>) )
+  <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^0-9a-zA-Z+/=]/</span>) )
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on base64ToHex: base64 strings only'</span>)
   <span class="hljs-keyword">return</span> C.binToHex( C.base64ToBin(input) )
 }
 C.base64ToAscii = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
-  <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^0-9a-zA-Z+/]/</span>) )
+  <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> || input.match(<span class="hljs-regexp">/[^0-9a-zA-Z+/=]/</span>) )
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on base64ToAscii: base64 strings only'</span>)
   <span class="hljs-keyword">return</span> C.binToAscii( C.base64ToBin(input) )
 }
@@ -116,10 +124,10 @@ C.asciiToHex = <span class="hljs-function"><span class="hljs-keyword">function</
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on asciiToHex: ascii strings only'</span>)
   <span class="hljs-keyword">return</span> C.binToHex( C.asciiToBin(input) )
 }
-C.asciiTo64 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
+C.asciiToBase64 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input</span>) </span>{
   <span class="hljs-keyword">if</span> ( <span class="hljs-keyword">typeof</span> input != <span class="hljs-string">'string'</span> )
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on asciiTo64: ascii strings only'</span>)
-  <span class="hljs-keyword">return</span> C.binTo64( C.asciiToBin(input) )
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'invalid arg on asciiToBase64: ascii strings only'</span>)
+  <span class="hljs-keyword">return</span> C.binToBase64( C.asciiToBin(input) )
 }
 
 <span class="hljs-built_in">module</span>.exports = C</div></div></div></div></body></html>

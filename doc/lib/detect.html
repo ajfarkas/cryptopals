@@ -15,7 +15,7 @@ Current support:</p>
     <span class="hljs-keyword">return</span> <span class="hljs-string">'bin'</span>
   <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!input.match(<span class="hljs-regexp">/[^0-9a-fA-F]/</span>) &amp;&amp; !input.match(<span class="hljs-regexp">/[a-f][A-F]/</span>))
     <span class="hljs-keyword">return</span> <span class="hljs-string">'hex'</span>
-  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!input.match(<span class="hljs-regexp">/[^A-Za-z0-9+/]/</span>))
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!input.match(<span class="hljs-regexp">/[^A-Za-z0-9+/=]/</span>))
     <span class="hljs-keyword">return</span> <span class="hljs-string">'base64'</span>
   <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!input.match(<span class="hljs-regexp">/[^\x00-\xff]/</span>))
     <span class="hljs-keyword">return</span> <span class="hljs-string">'ascii'</span>
