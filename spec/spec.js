@@ -121,6 +121,7 @@ describe("Encrypt", function() {
 })
 
 describe("Decrypt", function() {
+  var Convert = require('../lib/convert')
   var Decrypt = require('../lib/decrypt')
   var fs = require('fs')
 
@@ -147,12 +148,15 @@ describe("Decrypt", function() {
   })
 
   it("should decrypt repeat-key XOR encoding", function() {
-    // var input = fs.readFileSync('../tests/6.txt', { encoding: 'UTF8'})
-    var str = "0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f"
-    var message = "Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"
+    fs.readFile('./helpers/xor6.txt', 'utf8', function(err, data) {
+      if (err) fail(err)
+      var input = data.replace(/\n/g, '')
+      var str = Convert.base64ToBin(input)
 
-    var keys = Decrypt.getRepeatKey(str, { keyrange: [2, 8], keytries: 2 })
-    expect(keys).toContain('ICE')
+      var keys = Decrypt.getRepeatKey(str, { keyrange: [2, 40], keytries: 3 })
+      expect(keys).toContain('Terminator X: Bring the noise')
+    })
+    
   })
 })
 
